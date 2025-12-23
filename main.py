@@ -3,11 +3,15 @@
 #import pygame
 
 
+alert = False
+
+
 def main():
     print("PROGRAMME D'EXTRACTION DU BON DE COMMANDE DU CÉGEP")
     print("===============================================")
     print("VEUILLEZ DÉPOSER UN FICHIER À EXTRAIRE")
 
+    
     file_path = input("Chemin du fichier : ")
 
     content_table = extract_cegep(file_path)
@@ -18,7 +22,11 @@ def main():
 
     print("===============================================")
     print("Commande généré avec succès.")
-    input("Appuyez sur n'importe quel bouton pour quitter...")
+    print("ALERT = ", alert) #ALERT DOES NOT WORK, NEED TO INVESTIGATE!!
+    if alert:
+        print("***ISBN DIFFÉRENTS, VÉRIFIEZ LE ISBN NOTÉ D'UNE ÉTOILE DANS cegep_vente.txt")
+        print("===============================================")
+    input("Appuyez sur ENTER pour quitter...")
     # for row in order_table:
     #     print(row)
 
@@ -69,14 +77,16 @@ def extract_cegep(file_path):
             
             if "ISBN:" in part[1]:
                 part = part[1].split("ISBN:")
-                isbn_line = part[1].split("\n", 1)[0]
+                isbn_line = part[1].split(" ", 1)[0]
                 content_row.append("".join(c for c in isbn_line if c.isdigit()))
             else:
                 content_row.append("")
             
-            #if there is more than one ISBN
+            # for i,p in enumerate(part):
+            #     print(i, " *:* ", p)
+            #if there is more than one ISBN 
             if len(part) > 2:
-                isbn_line = part[2].split("\n", 1)[0]
+                isbn_line = part[2].split(" ", 1)[0]
                 content_row.append("".join(c for c in isbn_line if c.isdigit()))
                 part[1] = part[2]
             else:
@@ -88,7 +98,7 @@ def extract_cegep(file_path):
             else:
                 content_row.append("")
             
-
+            print(content_row)
             content_table.append(content_row)
             
             
@@ -104,13 +114,15 @@ def generate_order(content_table):
 
         #verify and add the ISBN, add * if unsure
         if row[4] != row[7]:
-            order_row.append("*", row[4])
+            order_row.append("*" + row[4])
+            alert = True
         else:
             order_row.append(row[4])
         
         #add the quantity
         order_row.append(row[1])
         #add the order code
+
         order_row.append(row[0])
 
         order_table.append(order_row)
