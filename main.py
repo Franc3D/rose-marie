@@ -7,9 +7,12 @@ alert = False
 
 
 def main():
+    print()
     print("PROGRAMME D'EXTRACTION DU BON DE COMMANDE DU CÉGEP")
     print("===============================================")
     print("VEUILLEZ DÉPOSER UN FICHIER À EXTRAIRE")
+    print("===============================================")
+    print()
 
     
     file_path = input("Chemin du fichier : ")
@@ -20,11 +23,14 @@ def main():
     generate_order(content_table)
     generate_ISBN(content_table)
 
+    print()
     print("===============================================")
     print("Commande généré avec succès.")
-    print("ALERT = ", alert) #ALERT DOES NOT WORK, NEED TO INVESTIGATE!!
+    print("===============================================")
     if alert:
-        print("***ISBN DIFFÉRENTS, VÉRIFIEZ LE ISBN NOTÉ D'UNE ÉTOILE DANS cegep_vente.txt")
+        print()
+        print("===============================================")
+        print("***ISBN DIFFÉRENTS, VÉRIFIEZ LE ISBN NOTÉ D'UNE ÉTOILE DANS cegep_vente.txt***")
         print("===============================================")
     input("Appuyez sur ENTER pour quitter...")
     # for row in order_table:
@@ -45,7 +51,7 @@ def extract_cegep(file_path):
 
         for index, part in enumerate(split):
 
-            if index == 0:
+            if index == 0: #Skip the bit before we get actual information
                 continue
             content_row = []
             
@@ -115,6 +121,7 @@ def generate_order(content_table):
         #verify and add the ISBN, add * if unsure
         if row[4] != row[7]:
             order_row.append("*" + row[4])
+            global alert
             alert = True
         else:
             order_row.append(row[4])
