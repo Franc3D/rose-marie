@@ -15,7 +15,7 @@ def main():
     print()
 
     
-    file_path = input("Chemin du fichier : ")
+    file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
 
     content_table = extract_cegep(file_path)
     
