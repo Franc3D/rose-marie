@@ -1,7 +1,7 @@
 #This is the project for Rose-Marie
 #Starting with the cegep .txt files
 #import pygame
-
+import config
 
 alert = False
 
@@ -136,7 +136,7 @@ def generate_order(content_table):
 
 
     #part 2 write in a brand new doc the formated output
-    with open("cegep_vente.txt", "w", encoding="utf-8") as output_file:
+    with open(config.OUTPUT_ORDER, "w", encoding="utf-8") as output_file:
         for row in order_table:
             output_file.write("\t".join(row) + "\n")
     #return order_table
@@ -147,7 +147,7 @@ def generate_ISBN(content_table):
         order_table.append(row[4])
 
     #part 2 write in a brand new doc the formated output
-    with open("cegep_liste.txt", "w", encoding="utf-8") as output_file:
+    with open(config.OUTPUT_LISTE, "w", encoding="utf-8") as output_file:
         for row in order_table:
             output_file.write(row + "\n")
 
