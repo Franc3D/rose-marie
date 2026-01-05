@@ -1,7 +1,8 @@
-from cegep import read_cegep
+import cegep
+#from cegep import read_cegep
 
 def main():
-    cegep.main()
+    cegep.read_cegep()
     
 
 if __name__ == "__main__":

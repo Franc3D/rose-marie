@@ -9,7 +9,7 @@ OUTPUT_LIST=r"C:\Users\User\Documents\cegep_liste_ISBN.txt"
 alert = False
 
 
-def main():
+def read_cegep():
     print()
     print("PROGRAMME D'EXTRACTION DU BON DE COMMANDE DU CÉGEP")
     print("===============================================")
@@ -157,4 +157,4 @@ def generate_ISBN(content_table):
             output_file.write(row + "\n")
 
 if __name__ == "__main__":
-    main()
+    read_cegep()
