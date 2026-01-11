@@ -19,6 +19,7 @@ def read_cegep():
 
     
     file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
+    file_path = normalize_path(file_path)
 
     content_table = extract_cegep(file_path)
     
@@ -38,6 +39,12 @@ def read_cegep():
     input("Appuyez sur ENTER pour quitter...")
     # for row in order_table:
     #     print(row)
+
+def normalize_path(p):
+    p = p.strip()
+    if p.startswith("& '") and p.endswith("'"):
+        return p[3:-1]
+    return p
 
 
 #this function will go through the text file and methodically extract the relevant information
