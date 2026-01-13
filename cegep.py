@@ -2,8 +2,8 @@
 #Starting with the cegep .txt files
 import config
 
-OUTPUT_ORDER=r"C:\Users\User\Documents\cegep_vente.txt"
-OUTPUT_LIST=r"C:\Users\User\Documents\cegep_liste_ISBN.txt"
+#OUTPUT_ORDER=r"C:\Users\User\Documents\cegep_vente.txt"
+#OUTPUT_LIST=r"C:\Users\User\Documents\cegep_liste_ISBN.txt"
 #Need to make the output work in windows
 
 alert = False
@@ -19,7 +19,7 @@ def read_cegep():
 
     
     file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
-    file_path = normalize_path(file_path)
+    file_path = normalize_path(file_path) #Fixes the filepath if used in PowerShell
 
     content_table = extract_cegep(file_path)
     
@@ -147,7 +147,7 @@ def generate_order(content_table):
 
     #part 2 write in a brand new doc the formated output
     #with open(OUTPUT_ORDER, "w", encoding="utf-8") as output_file:
-    with open(config.OUTPUT_ORDER, "w", encoding="utf-8") as output_file:
+    with open(config.OUTPUT_ORDER_CEGEP, "w", encoding="utf-8") as output_file:
         for row in order_table:
             output_file.write("\t".join(row) + "\n")
     #return order_table
@@ -158,7 +158,7 @@ def generate_ISBN(content_table):
         order_table.append(row[4])
 
     #part 2 write in a brand new doc the formated output
-    with open(config.OUTPUT_LIST, "w", encoding="utf-8") as output_file:
+    with open(config.OUTPUT_LIST_CEGEP, "w", encoding="utf-8") as output_file:
     #with open(OUTPUT_LIST, "w", encoding="utf-8") as output_file:
         for row in order_table:
             output_file.write(row + "\n")

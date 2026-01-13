@@ -1,6 +1,9 @@
 from PyPDF2 import PdfReader
 import config
 
+alert = False
+alert_message = []
+
 def read_bdg():
     print()
     print("PROGRAMME D'EXTRACTION DU BON DE COMMANDE DE LA BIBLIO DE GATINEAU")
@@ -15,6 +18,21 @@ def read_bdg():
 
     content_table = extract_bdg(file_path)
 
+    generate_order(content_table)
+    generate_ISBN(content_table)
+
+    print()
+    print("===============================================")
+    print("Commande généré avec succès.")
+    print("===============================================")
+    if alert:
+        print()
+        print("===============================================")
+        for e in alert_message:
+            print(e)
+        print("===============================================")
+    input("Appuyez sur ENTER pour quitter...")
+
 def normalize_path(p):
     p = p.strip()
     if p.startswith("& '") and p.endswith("'"):
@@ -24,7 +42,6 @@ def normalize_path(p):
 def extract_bdg(file_path):
     reader = PdfReader(file_path) #Need to figure out PdfReader
 
-    detected_error = False
     no_bon_commande = ""
     order_table = []
 
@@ -68,12 +85,12 @@ def extract_bdg(file_path):
                 continue
             
             if line_number == 1:
-                words = line[1:].split()
+                words = line.split()
                 word_index = 0
                 
                 #In case there is no author
                 if words[0].isdigit() and len(words[0]) == 13:
-                    order_row.append("") #Column 0
+                    #order_row.append("") #Column 0
                     word_index = 0 #Current location is on the ISBN
                     
                 else: #If there is an author
@@ -85,6 +102,18 @@ def extract_bdg(file_path):
                             word_index = i
                             break
                         
+                        #IF I WANT TO FIGURE OUT HOW TO EXTRACT THE INDEX NUMBER IT COULD BE A NICE PUZZLE TO SOLVE
+                        # #in case this is the first word of the line and 
+                        # index = ""
+                        # if combined_authors == "":
+                        #     for letter in word:
+                        #         if letter.isdigit():
+                        #             index += letter
+                        #         else:
+                        #             order_row.append(index)
+                        #             word = word[len(index.strip()):]
+                        #             break
+
                         combined_authors = combined_authors + " " + word
                     order_row.append(combined_authors) #Column 0
 
@@ -108,6 +137,13 @@ def extract_bdg(file_path):
 
                     #Get the unit price
                     order_row.append(words[word_index]) #Column 3
+
+                    #Get a warning at the end
+                    global alert 
+                    global alert_message
+
+                    alert = True
+                    alert_message.append("THE QUANTITIES COULD NOT BE ADDED CORRECTLY ON ISBN " + order_row[1] + " , IT MAY BE MERGED WITH THE PRICE")
                 
 
                 
@@ -127,16 +163,41 @@ def extract_bdg(file_path):
                 
 
             
-            
-            #break
+    return order_table
 
 
 
 def generate_order(content_table):
-    pass
+    order_table = []
+    for row in content_table:
+        order_row = []
+        
+        #add the ISBN
+        order_row.append(row[1])
+        #add the Price
+        order_row.append(row[3])
+        #add the QTY
+        order_row.append(row[2])
+
+        order_table.append(order_row)
+
+        #part 2 write in a brand new doc the formated output
+    #with open(OUTPUT_ORDER, "w", encoding="utf-8") as output_file:
+    with open(config.OUTPUT_ORDER_BDG, "w", encoding="utf-8") as output_file:
+        for row in order_table:
+            output_file.write("\t".join(row) + "\n")
+    #return order_table
 
 def generate_ISBN(content_table):
-    pass
+    order_table = []
+    for row in content_table:
+        order_table.append(row[1])
+
+    #part 2 write in a brand new doc the formated output
+    with open(config.OUTPUT_LIST_BDG, "w", encoding="utf-8") as output_file:
+    #with open(OUTPUT_LIST, "w", encoding="utf-8") as output_file:
+        for row in order_table:
+            output_file.write(row + "\n")
 
 if __name__ == "__main__":
     read_bdg()
