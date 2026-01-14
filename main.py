@@ -1,4 +1,5 @@
 import cegep
+import bdg
 #from cegep import read_cegep
 
 def main():
@@ -14,7 +15,7 @@ def main():
         cegep.read_cegep()
 
     elif response == "2":
-        input("Cette option n'est pas encore disponible, appuyez sur une touche pour quitter...")
+        bdg.read_bdg()
     
     else:
         input("Cette option n'est pas valide, appuyez sur une touche pour quitter...")
