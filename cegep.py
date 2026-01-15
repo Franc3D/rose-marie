@@ -9,7 +9,7 @@ import config
 alert = False
 
 
-def read_cegep():
+def read_cegep(filepath=""):
     print()
     print("PROGRAMME D'EXTRACTION DU BON DE COMMANDE DU CÉGEP")
     print("===============================================")
@@ -17,9 +17,11 @@ def read_cegep():
     print("===============================================")
     print()
 
-    
-    file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
-    file_path = normalize_path(file_path) #Fixes the filepath if used in PowerShell
+    if filepath != "":
+        file_path = filepath
+    else:
+        file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
+        file_path = normalize_path(file_path) #Fixes the filepath if used in PowerShell
 
     content_table = extract_cegep(file_path)
     

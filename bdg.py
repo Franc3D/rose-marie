@@ -4,7 +4,7 @@ import config
 alert = False
 alert_message = []
 
-def read_bdg():
+def read_bdg(filepath = ""):
     print()
     print("PROGRAMME D'EXTRACTION DU BON DE COMMANDE DE LA BIBLIO DE GATINEAU")
     print("===============================================")
@@ -12,9 +12,11 @@ def read_bdg():
     print("===============================================")
     print()
 
-    
-    file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
-    file_path = normalize_path(file_path) #Fixes the filepath if used in PowerShell
+    if filepath != "":
+        file_path = filepath: #import the filepath from main.py
+    else:
+        file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
+        file_path = normalize_path(file_path) #Fixes the filepath if used in PowerShell
 
     content_table = extract_bdg(file_path)
 
