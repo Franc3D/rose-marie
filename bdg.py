@@ -13,7 +13,7 @@ def read_bdg(filepath = ""):
     print()
 
     if filepath != "":
-        file_path = filepath: #import the filepath from main.py
+        file_path = filepath #import the filepath from main.py
     else:
         file_path = input("Déposez le fichier dans le fenêtre ou inscrivez le chemin du fichier à traiter : ")
         file_path = normalize_path(file_path) #Fixes the filepath if used in PowerShell
