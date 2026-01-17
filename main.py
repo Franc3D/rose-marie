@@ -23,6 +23,7 @@ def main():
         response = normalize_path(response)
         #verify if the response is a valid path
         if os.path.exists(response):
+            
             auto_manage_doc(response)
             
         else:
@@ -42,8 +43,15 @@ def auto_manage_doc(filepath):
     #detect extention 
     extension = filepath[filepath.rfind("."):]
 
-    if extension == ".txt":
-        pass
+    if extension == ".txt": #has to be Cegep
+        with open(filepath, "r", encoding="cp1252") as file:
+            lines = file.readlines()
+            if "-- BON DE COMMANDE #" in lines[3]:
+                cegep.read_cegep(filepath)
+            else:
+                print("This file does not match with any profiles found")
+                input("Press Enter to continue...")
+
     elif extension == ".pdf":
         pass
         
