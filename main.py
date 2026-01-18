@@ -1,10 +1,13 @@
 import cegep
 import bdg
 import os
+from PyPDF2 import PdfReader
 #from cegep import read_cegep
 
 def main():
     print("***Programme de listage de commande***")
+    print("--------------------------------------")
+    print("VEUILLEZ DÉPOSER LE DOCUMENT À TRAITER DANS LA FENÊTRE OU SÉLECTIONER L'UNE DES OPTIONS SUIVANTES...")
     print("--------------------------------------")
     print("Choisissez une option ci bas")
     print("1 -Cégep de l'Outaouais")
@@ -52,8 +55,15 @@ def auto_manage_doc(filepath):
                 print("This file does not match with any profiles found")
                 input("Press Enter to continue...")
 
-    elif extension == ".pdf":
-        pass
+    elif extension == ".pdf": #Has to be BdG
+        file = PdfReader(filepath)
+
+        first_page = file.pages[0].extract_text()
+        lines = first_page.splitlines()
+
+        identifier = "(Merci d'indiquer le numéro du BC dans toute correspondance)"
+        if lines[1] == identifier:
+            bdg.read_bdg(filepath)
         
     #open and read the file
     #Identify what document it is
