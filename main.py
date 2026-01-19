@@ -30,8 +30,8 @@ def main():
             auto_manage_doc(response)
             
         else:
-            print("This path is invalid")
-            input("Press any key to exit...")
+            print("Ce dossier est invalide.")
+            input("Appuie sur ENTER pour continuer...")
         
 
     
@@ -41,8 +41,6 @@ def main():
 
 def auto_manage_doc(filepath):
     #This will automatically read the doc in the path and activate the proper .py function to treat it
-    print("auto manage doc")
-     #todo
     #detect extention 
     extension = filepath[filepath.rfind("."):]
 
@@ -52,8 +50,8 @@ def auto_manage_doc(filepath):
             if "-- BON DE COMMANDE #" in lines[3]:
                 cegep.read_cegep(filepath)
             else:
-                print("This file does not match with any profiles found")
-                input("Press Enter to continue...")
+                print("Ce fichier ne correspond pas à aucun format valide")
+                input("Appuyez sur ENTER pour quitter...")
 
     elif extension == ".pdf": #Has to be BdG
         file = PdfReader(filepath)

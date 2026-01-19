@@ -42,7 +42,7 @@ def normalize_path(p):
     return p
 
 def extract_bdg(file_path):
-    reader = PdfReader(file_path) #Need to figure out PdfReader
+    reader = PdfReader(file_path)
 
     no_bon_commande = ""
     order_table = []
@@ -145,8 +145,8 @@ def extract_bdg(file_path):
                     global alert_message
 
                     alert = True
-                    alert_message.append("THE QUANTITIES COULD NOT BE ADDED CORRECTLY ON ISBN " + order_row[1] + " , IT MAY BE MERGED WITH THE PRICE")
-                
+                    alert_message.append("LA QUANTITÉ N'A PAS PU ÊTRE AJOUTÉ CORRECTEMENT " + order_row[1] + " , LA QUANTITÉ POURRAIT ÊTRE COMBINÉ AU PRIX.")
+                    
 
                 
                 
