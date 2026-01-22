@@ -12,6 +12,7 @@ def main():
     print("Choisissez une option ci bas")
     print("1 -Cégep de l'Outaouais")
     print("2 -Bibliothèque de Gatineau (BdG)")
+    print("3 -Futur projet")
     
     response = input("Entrez le chiffre de l'option désiré :")
 
@@ -20,6 +21,9 @@ def main():
 
     elif response == "2":
         bdg.read_bdg()
+
+    elif response == "3":
+        pass
     
     elif len(response) > 7:
         #Cleanup the path if in powershell
