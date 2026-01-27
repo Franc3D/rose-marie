@@ -2,7 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-def main():
+def scan_memento():
 
     session = requests.Session()
 
@@ -78,5 +78,19 @@ def main():
 # - utiliser l'outil de recherche du sute web désiré
 # - Se connecter à memento
 
+#Utiliser l'outil de recherche pour trouver un livre sur LesLibraires.ca
+def find_url(): #On LesLibraires.ca
+
+    isbn = input("What is the ISBN you want to find in LesLibraires.ca : ")
+
+    search_url = f"https://www.leslibraires.ca/recherche/?isbn={isbn}"
+
+    session = requests.Session()
+    response = session.get(search_url, allow_redirects=True)
+
+    final_url = response.url
+    print(final_url)
+    input("Appuyez sur ENTER pour continuer...")
+
 if __name__ == "__main__":
-    main()
+    find_url()
