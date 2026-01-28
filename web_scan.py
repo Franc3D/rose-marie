@@ -91,6 +91,9 @@ def find_url(): #On LesLibraires.ca
     final_url = response.url
     print(final_url)
     input("Appuyez sur ENTER pour continuer...")
+    #Trouver pourquoi il redirige vers catalogue/?isbn=...
+    #Un script javascript peut être ?
+
 
 if __name__ == "__main__":
     find_url()
