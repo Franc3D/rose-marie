@@ -1,6 +1,8 @@
 #import urllib
 import requests
 from bs4 import BeautifulSoup
+import json
+import re
 
 def scan_memento():
 
@@ -79,7 +81,7 @@ def scan_memento():
 # - Se connecter à memento
 
 #Utiliser l'outil de recherche pour trouver un livre sur LesLibraires.ca
-def find_url(): #On LesLibraires.ca
+def find_url_old(): #On LesLibraires.ca
 
     isbn = input("What is the ISBN you want to find in LesLibraires.ca : ")
 
@@ -93,6 +95,37 @@ def find_url(): #On LesLibraires.ca
     input("Appuyez sur ENTER pour continuer...")
     #Trouver pourquoi il redirige vers catalogue/?isbn=...
     #Un script javascript peut être ?
+
+import requests
+
+def find_url():
+    isbn = input("ISBN: ")
+
+    url = f"https://www.booksellers.ca/api/search/products?keywords={isbn}&page=1"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    r = requests.get(url, headers=headers)
+    data = r.json()
+
+    if "products" in data and data["products"]:
+        product = data["products"][0]
+        real_url = "https://www.leslibraires.ca" + product["url"]
+        print(real_url)
+    else:
+        print("No result found.")
+
+
+def debug_html(isbn):
+    url = f"https://www.leslibraires.ca/catalogue?isbn={isbn}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    r = requests.get(url, headers=headers)
+    print(r.text[:2000])  # print first 2000 chars
 
 
 if __name__ == "__main__":
