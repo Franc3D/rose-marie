@@ -44,5 +44,6 @@ driver = webdriver.Chrome(options=options)
 driver.get("https://www.google.com")
 
 print("Page title:", driver.title)
+#takin my friday off lol
 
 driver.quit()
