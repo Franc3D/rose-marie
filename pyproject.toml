@@ -4,4 +4,8 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "auto-py-to-exe>=2.48.1",
+    "pypdf2>=3.0.1",
+    "selenium>=4.40.0",
+]
