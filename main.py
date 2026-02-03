@@ -76,6 +76,8 @@ def normalize_path(p):
     p = p.strip()
     if p.startswith("& '") and p.endswith("'"):
         return p[3:-1]
+    elif p.startswith("\"") and p.endswith("\""):
+        return p[1:-1]
     return p
 
 if __name__ == "__main__":

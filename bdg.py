@@ -36,9 +36,12 @@ def read_bdg(filepath = ""):
     input("Appuyez sur ENTER pour quitter...")
 
 def normalize_path(p):
+    print("Here is the exact text being handled *** :", p)
     p = p.strip()
     if p.startswith("& '") and p.endswith("'"):
         return p[3:-1]
+    elif p.startswith("\"") and p.endswith("\""):
+        return p[1:-1]
     return p
 
 def extract_bdg(file_path):
