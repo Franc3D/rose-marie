@@ -1,51 +1,84 @@
-# from selenium import webdriver
-# from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.common.by import By
-# import time
-
-# def find_url():
-#     isbn = input("ISBN: ")
-
-#     search_url = f"https://www.leslibraires.ca/recherche/?isbn={isbn}"
-
-#     options = Options()
-#     options.add_argument("--headless=new")  # run without opening a window
-
-#     driver = webdriver.Chrome(options=options)
-
-#     driver.get(search_url)
-
-#     # Wait for JS to finish redirecting
-#     time.sleep(3)
-
-#     print("Final URL:", driver.current_url)
-
-#     driver.quit()
-
-#     input("Appuyez sur ENTER pour continuer...")
-
-# if __name__ == "__main__":
-#     find_url()
-
-
+import password
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-options = Options()
-options.add_argument("--headless=new") #run without a visible window
-options.add_argument("--no-sandbox") #run without the sandbox layer
-options.add_argument("--disable-dev-shm-usage") #don’t try to use GPU acceleration
-options.add_argument("--disable-gpu") #don’t use /dev/shm for shared memory
-options.add_argument("--remote-debugging-port=9222") #open a debugging port so ChromeDriver can talk to Chrome
-options.add_argument("--disable-software-rasterizer")
+def web_scraper():
+    options = Options()
+    options.add_argument("--headless=new") #run without a visible window
+    options.add_argument("--no-sandbox") #run without the sandbox layer
+    options.add_argument("--disable-dev-shm-usage") #don’t try to use GPU acceleration
+    options.add_argument("--disable-gpu") #don’t use /dev/shm for shared memory
+    options.add_argument("user-agent=Mozilla/5.0")
 
-driver = webdriver.Chrome(options=options)
+    #options.add_argument("--remote-debugging-port=9222") #open a debugging port so ChromeDriver can talk to Chrome
+    #options.add_argument("--disable-software-rasterizer")
 
-driver.get("https://www.google.com")
+    global driver
+    global wait
+
+    driver = webdriver.Chrome(options=options)
+    wait = WebDriverWait(driver, 10)
+
+    #1. NAVIGATION
+    #-------------------------------------
+    driver.get("https://www.google.com")
+
+    #2. LOCATING ELEMENTS
+    #-------------------------------------
+    #Using By. to get an element
+    #email_box = wait.until(EC.presence_of_element_located((By.ID, "email")))
+    #By.ID
+    #By.NAME
+    #By.CSS_SELECTOR
+    #By.XPATH
+    #...
+
+    #3 INTERACTING
+    #-------------------------------------
+    #email_box.send_keys("my_email")
+    #password_box.send_keys("my_password")
+    #login_button.click()
+
+    #login()
+
+
+    print("Page title:", driver.title)
+
+    driver.quit()
 
 
 
-print("Page title:", driver.title)
-#takin my friday off lol
+def login():
+    driver.get("https://www.mementolivres.com/Login.aspx")
 
-driver.quit()
+
+    courriel_box = wait.until(EC.presence_of_all_elements_located((By.ID, "txtEmail"))) #Using premade wait variable using WebDriverWait earlier 
+    password_box = driver.find_element(By.ID, "pasPassword")
+
+    courriel_box.clear()
+    password_box.clear()
+
+    courriel_box.send_keys(password.COURRIEL_LOGIN)
+    password_box.send_keys(password.PASSWORD_LOGIN)
+
+    login_button = wait.until(
+        EC.element_to_be_clickable((By.ID, "btnLogin"))
+    )
+    login_button.click()
+
+    #Verify if the account-menu hs appeared
+    account_element = wait.until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".account-menu"))
+    )
+    print("Login seems successful.")
+
+
+    #In case of no ID for button
+    #login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']")))
+
+if __name__ == "__main__":
+    web_scraper()
+
