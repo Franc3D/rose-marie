@@ -7,6 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def web_scraper():
     options = Options()
+    options.binary_location = "/usr/bin/chromium-browser"
+
     options.add_argument("--headless=new") #run without a visible window
     options.add_argument("--no-sandbox") #run without the sandbox layer
     options.add_argument("--disable-dev-shm-usage") #don’t try to use GPU acceleration
@@ -22,9 +24,59 @@ def web_scraper():
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
-    #1. NAVIGATION
+    #driver.get("google.com")
+
+    login()
+
+    print("Page title:", driver.title)
+
+    driver.quit()
+
+
+
+def login():
+    driver.get("https://www.mementolivres.com/Login.aspx")
+
+    #within the login form
+    form = wait.until(
+        EC.presence_of_element_located((By.ID, "frmLoginPage"))
+    )
+
+
+    courriel_box = form.find_element(By.ID, "txtEmail")
+    password_box = form.find_element(By.ID, "pasPassword")
+
+
+    courriel_box.clear()
+    password_box.clear()
+
+    courriel_box.send_keys(password.COURRIEL_LOGIN)
+    password_box.send_keys(password.PASSWORD_LOGIN)
+
+    login_button = form.find_element(By.ID, "btnLogin")
+    
+    login_button.click()
+
+    #Verify if the account-menu hs appeared
+    account_element = wait.until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".logged-in"))
+    )
+    if EC.url_to_be("https://www.mementolivres.com/SearchResults.aspx?adv=1"):
+        print("Login seems successful.")
+    else:
+        print("Somethin' wonky goin' on!")
+
+
+
+    #In case of no ID for button
+    #login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']")))
+
+if __name__ == "__main__":
+    web_scraper()
+
+#1. NAVIGATION
     #-------------------------------------
-    driver.get("https://www.google.com")
+    #driver.get("https://www.google.com")
 
     #2. LOCATING ELEMENTS
     #-------------------------------------
@@ -43,42 +95,3 @@ def web_scraper():
     #login_button.click()
 
     #login()
-
-
-    print("Page title:", driver.title)
-
-    driver.quit()
-
-
-
-def login():
-    driver.get("https://www.mementolivres.com/Login.aspx")
-
-
-    courriel_box = wait.until(EC.presence_of_all_elements_located((By.ID, "txtEmail"))) #Using premade wait variable using WebDriverWait earlier 
-    password_box = driver.find_element(By.ID, "pasPassword")
-
-    courriel_box.clear()
-    password_box.clear()
-
-    courriel_box.send_keys(password.COURRIEL_LOGIN)
-    password_box.send_keys(password.PASSWORD_LOGIN)
-
-    login_button = wait.until(
-        EC.element_to_be_clickable((By.ID, "btnLogin"))
-    )
-    login_button.click()
-
-    #Verify if the account-menu hs appeared
-    account_element = wait.until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, ".account-menu"))
-    )
-    print("Login seems successful.")
-
-
-    #In case of no ID for button
-    #login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']")))
-
-if __name__ == "__main__":
-    web_scraper()
-
