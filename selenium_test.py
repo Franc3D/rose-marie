@@ -30,9 +30,28 @@ def web_scraper():
 
     print("Page title:", driver.title)
 
+    while True:
+        access_isbn()
+
     driver.quit()
 
+def access_isbn():
 
+    isbn = input("Please enter an ISBN : ")
+
+    driver.get(f"https://www.mementolivres.com/viewtitle.aspx?ean={isbn}")
+    
+    #get the content of <div class="main-title">
+    #                        the title is here
+    #                   </div>
+    #And replace the driver.title with it
+    title_element = wait.until(
+    EC.visibility_of_element_located((By.CSS_SELECTOR, ".main-title"))
+    )
+
+    print("Page title:", title_element.text)
+
+    
 
 def login():
     driver.get("https://www.mementolivres.com/Login.aspx")
