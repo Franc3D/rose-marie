@@ -31,11 +31,11 @@ def web_scraper():
     print("Page title:", driver.title)
 
     while True:
-        access_isbn()
+        access_isbn_page()
 
     driver.quit()
 
-def access_isbn():
+def access_isbn_page():
 
     isbn = input("Please enter an ISBN : ")
 
@@ -44,12 +44,54 @@ def access_isbn():
     #get the content of <div class="main-title">
     #                        the title is here
     #                   </div>
-    #And replace the driver.title with it
+
+    #TITLE
     title_element = wait.until(
     EC.visibility_of_element_located((By.CSS_SELECTOR, ".main-title"))
     )
 
+    #AUTHORS
+    contributors = driver.find_elements(By.CSS_SELECTOR, ".mem-contributor-name a") #In this case it will look for any <a> inside the <div class=mem-contributor-name...>
+    #Turn it into a list
+    authors = [c.text.strip() for c in contributors]
+
+    #for the Série, collection and editor
+    mem_label = driver.find_elements(By.CSS_SELECTOR, ".mem-label")
+    mem_content = driver.find_elements(By.CSS_SELECTOR, ".mem-series-content a")
+
+    label = [l.text.strip() for l in mem_label]
+    content = [c.text.strip() for c in mem_content]
+
+    serie = ""
+    collection = ""
+    editor = ""
+
+    for x,l in enumerate(label):
+        if l == "Série :":
+            serie = content[x]
+        elif l == "Collection :":
+            collection = content[x]
+        elif l == "Marque :":
+            editor = content[x]
+        else:
+            print("***Unknown datatype found named as : ", label)
+
+    #extract the number from the serie for better storage
+    if len(serie) > 0:
+        serie_number = serie.split()[-1]
+        serie = serie[:(len(serie_number)+2)*-1]
+    
+
+    #acquire all the "mem-label" in order
+    #acquire all the "mem-series-content a" in order
+    #assign the label to the content as to store the content inside designated variables
+
     print("Page title:", title_element.text)
+    print("Authors : ", authors)
+    print("Série : ", serie)
+    print("Collection : ", collection)
+    print("Éditeur : ", editor)
+    print("Numéro de Série : ", serie_number)
 
     
 
