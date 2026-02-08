@@ -80,11 +80,28 @@ def access_isbn_page():
     if len(serie) > 0:
         serie_number = serie.split()[-1]
         serie = serie[:(len(serie_number)+2)*-1]
+    else:
+        serie_number = ""
     
 
-    #acquire all the "mem-label" in order
-    #acquire all the "mem-series-content a" in order
-    #assign the label to the content as to store the content inside designated variables
+    #Extract the link of the coverpicture
+    coverpicture = driver.find_element(By.CSS_SELECTOR, ".viewtitle-cover-block a")
+    coverpicture_url = coverpicture.get_attribute("href")
+
+    
+    
+    
+    #extract the left side of the webpage
+    left_panel = driver.find_element(By.CSS_SELECTOR, ".left-collapse-block")
+    
+    #Next up we need to divide each accordion into 
+    segments = left_panel.find_elements(By.CSS_SELECTOR, ".accordion-segment")
+    #Yoink the name of the segment from the <h4>
+    segments_titles = []
+    for seg in segments:
+        segments_titles.append(seg.find_element(By.TAG_NAME, "h4").text.strip())
+
+    
 
     print("Page title:", title_element.text)
     print("Authors : ", authors)
@@ -92,6 +109,9 @@ def access_isbn_page():
     print("Collection : ", collection)
     print("Éditeur : ", editor)
     print("Numéro de Série : ", serie_number)
+    print("Cover image URL : ", coverpicture_url)
+    print(left_panel.text)
+
 
     
 
