@@ -93,6 +93,9 @@ def access_isbn_page():
     
     #extract the left side of the webpage
     left_panel = driver.find_element(By.CSS_SELECTOR, ".left-collapse-block")
+
+   
+
     
     #Next up we need to divide each accordion into 
     segments = left_panel.find_elements(By.CSS_SELECTOR, ".accordion-segment")
@@ -102,6 +105,51 @@ def access_isbn_page():
         segments_titles.append(seg.find_element(By.TAG_NAME, "h4").text.strip())
 
     
+    #Must click on the Données commerciales(FR) to gain access
+    for x,s in enumerate(segments_titles):
+        if s == "Données commerciales (FR)": # s == "Autres formats" or
+            segments[x].click()
+
+    segments_text = left_panel.find_elements(By.CSS_SELECTOR, ".inner-content")
+    
+    segment_content = []
+    dist_can = ""
+    disp_can = ""
+    price_can = 0
+    release_can = ""
+    disp_eur = ""
+    price_eur = 0
+
+    for x, seg in enumerate(segments_text):
+        if seg != "":
+            text_seg = seg.text.split()
+            print(text_seg) #for visual aid
+            for i, word in enumerate(text_seg):
+                if segments_titles[x] == "Données commerciales (CA)":
+                    if word == "Distributeur":
+                        dist_can = text_seg[i+2]
+                    elif word == "Disponibilité":
+                        disp_can = text_seg[i+2]
+                    elif word == "Prix":
+                        price_can = text_seg[i+2]
+                    elif word == "parution":
+                        release_can = text_seg[i+2]
+
+                elif segments_titles[x] == "Données commerciales (FR)":
+                    if word == "Disponibilité":
+                        disp_eur = text_seg[i+2]
+                    elif word == "HT": #ou "TTC", à voir
+                        price_eur = text_seg[i+2]
+                    
+
+        
+        
+        
+        
+        # print(len(segments_text))
+        # print("*", seg.text)
+        # segment_content.append(seg.text)
+        #segment_content.append(seg.find_elements(By.TAG_NAME, "span").text.strip())
 
     print("Page title:", title_element.text)
     print("Authors : ", authors)
@@ -110,7 +158,14 @@ def access_isbn_page():
     print("Éditeur : ", editor)
     print("Numéro de Série : ", serie_number)
     print("Cover image URL : ", coverpicture_url)
-    print(left_panel.text)
+    print("Distributeur Canadien : ", dist_can)
+    print("Disponibilité Canada : ", disp_can)
+    print("Prix Canadien : ", price_can)
+    print("Date de parution Canadienne : ", release_can)
+    print("Disponibilité Europe : ", disp_eur)
+    print("Prix Européen : ", price_eur)
+    print(segments_titles)
+    print(segment_content)
 
 
     
