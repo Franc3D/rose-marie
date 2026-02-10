@@ -112,7 +112,6 @@ def access_isbn_page():
 
     segments_text = left_panel.find_elements(By.CSS_SELECTOR, ".inner-content")
     
-    segment_content = []
     dist_can = ""
     disp_can = ""
     price_can = 0
@@ -142,15 +141,16 @@ def access_isbn_page():
                         price_eur = text_seg[i+2]
                     
 
+    #Need to get the rest of the decisional data
+    # Support
+    # Public cible
+    # Thema
+    # Dewey
+    # Résumé court
+    # 4ème de couverture
         
-        
-        
-        
-        # print(len(segments_text))
-        # print("*", seg.text)
-        # segment_content.append(seg.text)
-        #segment_content.append(seg.find_elements(By.TAG_NAME, "span").text.strip())
 
+    #Display the data on screen for testing 
     print("Page title:", title_element.text)
     print("Authors : ", authors)
     print("Série : ", serie)
@@ -165,7 +165,7 @@ def access_isbn_page():
     print("Disponibilité Europe : ", disp_eur)
     print("Prix Européen : ", price_eur)
     print(segments_titles)
-    print(segment_content)
+
 
 
     
