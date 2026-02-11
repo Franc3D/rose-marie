@@ -118,6 +118,10 @@ def access_isbn_page():
     release_can = ""
     disp_eur = ""
     price_eur = 0
+    tps = False
+
+    # verify for the TPS icon here
+    # To do TPS
 
     for x, seg in enumerate(segments_text):
         if seg != "":
@@ -142,6 +146,7 @@ def access_isbn_page():
                     
 
     #Need to get the rest of the decisional data
+    # TPS icon
     # Support
     # Public cible
     # Thema
