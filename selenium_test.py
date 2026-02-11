@@ -146,9 +146,11 @@ def access_isbn_page():
                     
 
     #Need to get the rest of the decisional data
+    # Verify for the weird icon that means the whole page is a WIP, usually via ADP (see special_case.txt)
     # TPS icon
     # Support
     # Public cible
+    # Format (pour version poche)
     # Thema
     # Dewey
     # Résumé court
