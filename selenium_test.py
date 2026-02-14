@@ -152,9 +152,10 @@ def access_isbn_page():
     # Public cible
     # Format (pour version poche)
     # Thema
-    # Dewey (possible liste à regarder pour le classement ? )
+    # Dewey (possible liste à regarder pour le classement ?)
     # Résumé court
     # 4ème de couverture
+
         
 
     #Display the data on screen for testing 
