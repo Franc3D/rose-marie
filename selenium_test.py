@@ -35,6 +35,8 @@ def web_scraper():
 
     driver.quit()
 
+
+
 def access_isbn_page():
 
     isbn = input("Please enter an ISBN : ")
@@ -45,26 +47,37 @@ def access_isbn_page():
     #                        the title is here
     #                   </div>
 
+
     #TITLE
     title_element = wait.until(
     EC.visibility_of_element_located((By.CSS_SELECTOR, ".main-title"))
     )
 
+    #CHECKS IF THE PRODICT IS A "PRÉNOTICE COMMERCIALE"
+    prenotice = False
+    if driver.find_elements(By.CLASS_NAME, "prenotice"):
+        prenotice = True
+
     #AUTHORS
-    contributors = driver.find_elements(By.CSS_SELECTOR, ".mem-contributor-name a") #In this case it will look for any <a> inside the <div class=mem-contributor-name...>
+    contributors = []
+    if prenotice:
+        contributors = driver.find_elements(By.CSS_SELECTOR, ".mem-contributor-name ")
+    else:
+        contributors = driver.find_elements(By.CSS_SELECTOR, ".mem-contributor-name a") #In this case it will look for any <a> inside the <div class=mem-contributor-name...>
     #Turn it into a list
     authors = [c.text.strip() for c in contributors]
 
+
     #for the Série, collection and editor
+    serie = ""
+    collection = ""
+    editor = ""
+
     mem_label = driver.find_elements(By.CSS_SELECTOR, ".mem-label")
     mem_content = driver.find_elements(By.CSS_SELECTOR, ".mem-series-content a")
 
     label = [l.text.strip() for l in mem_label]
     content = [c.text.strip() for c in mem_content]
-
-    serie = ""
-    collection = ""
-    editor = ""
 
     for x,l in enumerate(label):
         if l == "Série :":
@@ -85,16 +98,14 @@ def access_isbn_page():
     
 
     #Extract the link of the coverpicture
-    coverpicture = driver.find_element(By.CSS_SELECTOR, ".viewtitle-cover-block a")
-    coverpicture_url = coverpicture.get_attribute("href")
+    coverpicture = driver.find_element(By.CSS_SELECTOR, ".viewtitle-cover-block a img")
+    coverpicture_url = coverpicture.get_attribute("src")
+    if coverpicture_url == "https://www.mementolivres.com/images/noImageAvailable-FR.jpg":
+        coverpicture_url = "" #in case there is no picture have the sting be nothing
 
-    
-    
     
     #extract the left side of the webpage
     left_panel = driver.find_element(By.CSS_SELECTOR, ".left-collapse-block")
-
-   
 
     
     #Next up we need to divide each accordion into 
@@ -114,14 +125,17 @@ def access_isbn_page():
     
     dist_can = ""
     disp_can = ""
-    price_can = 0
+    price_can = ""
     release_can = ""
     disp_eur = ""
-    price_eur = 0
-    tps = False
+    price_eur = ""
+    tvq = False
 
     # verify for the TPS icon here
-    # To do TPS
+    # Look for a TPS icon
+    print("***TVQ***: ", driver.find_elements(By.CSS_SELECTOR, ".QuebecTaxIcon"))
+    if len(driver.find_elements(By.CSS_SELECTOR, ".QuebecTaxIcon")) > 0:
+        tvq = True
 
     for x, seg in enumerate(segments_text):
         if seg != "":
@@ -168,6 +182,7 @@ def access_isbn_page():
     print("Cover image URL : ", coverpicture_url)
     print("Distributeur Canadien : ", dist_can)
     print("Disponibilité Canada : ", disp_can)
+    print("TSP: ", tvq)
     print("Prix Canadien : ", price_can)
     print("Date de parution Canadienne : ", release_can)
     print("Disponibilité Europe : ", disp_eur)
