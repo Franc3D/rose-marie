@@ -53,7 +53,8 @@ def access_isbn_page():
     EC.visibility_of_element_located((By.CSS_SELECTOR, ".main-title"))
     )
 
-    #CHECKS IF THE PRODICT IS A "PRÉNOTICE COMMERCIALE"
+    #CHECKS IF THE PRODUCT IS A "PRÉNOTICE COMMERCIALE"
+    #it is imperative that a Prénotice commercial is treated differently
     prenotice = False
     if driver.find_elements(By.CLASS_NAME, "prenotice"):
         prenotice = True
@@ -160,8 +161,6 @@ def access_isbn_page():
                     
 
     #Need to get the rest of the decisional data
-    # Verify for the weird icon that means the whole page is a WIP, usually via ADP (see special_case.txt)
-    # TPS icon
     # Support
     # Public cible
     # Format (pour version poche)
