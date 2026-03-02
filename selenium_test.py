@@ -188,6 +188,16 @@ def access_isbn_page():
     print("Prix Européen : ", price_eur)
     print(segments_titles)
 
+    print("Support : ")
+    print("Public cible : ")
+    print("format : ")
+    print("thema : ")
+    print("Dewey : ")
+
+    print("Résumé : ")
+    print("4ème de couverture : ")
+
+
 
 
     
