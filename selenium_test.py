@@ -31,13 +31,13 @@ def web_scraper():
     print("Page title:", driver.title)
 
     while True:
-        access_isbn_page()
+        acquire_data()
 
     driver.quit()
 
 
 
-def access_isbn_page():
+def acquire_data():
 
     isbn = input("Please enter an ISBN : ")
 
