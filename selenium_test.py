@@ -161,12 +161,12 @@ def acquire_data():
                     
 
     #Need to get the rest of the decisional data
-    # Support
-    # Public cible
-    # Format (pour version poche)
-    # Thema
-    # Dewey (possible liste à regarder pour le classement ?) 
-    # Résumé court
+    # Support = .mem-product-form
+    # Public cible = .age-range
+    # Format (pour version poche) = .dimensions
+    # Thema = .bib-subject-block row cell [0] ou .bib-subject-block div div span
+    # Dewey = .bib-subject-block row cell [2]
+    # Résumé court = .tab-content current
     # 4ème de couverture
 
         
