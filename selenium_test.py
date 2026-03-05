@@ -167,7 +167,7 @@ def acquire_data():
     # Thema = .bib-subject-block row cell [0] ou .bib-subject-block div div span
     # Dewey = .bib-subject-block row cell [2]
     # Résumé court = .tab-content current
-    # 4ème de couverture
+    # 4ème de couverture (skip for now)
 
         
 
