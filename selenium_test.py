@@ -131,7 +131,7 @@ def acquire_data():
     disp_eur = ""
     price_eur = ""
     tvq = False
-    
+     
 
     # verify for the TPS icon here
     # Look for a TPS icon
